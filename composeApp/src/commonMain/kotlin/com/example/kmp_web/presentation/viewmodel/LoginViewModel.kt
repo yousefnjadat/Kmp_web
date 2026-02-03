@@ -1,7 +1,5 @@
 package com.example.kmp_web.presentation.viewmodel
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import com.example.kmp_web.common.Result
 import com.example.kmp_web.domain.model.LoginRequest
 import com.example.kmp_web.domain.model.LoginResponse
@@ -10,13 +8,20 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class LoginViewModel(
     private val loginUseCase: LoginUseCase,
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 ) {
-    private val _loginState = mutableStateOf<Result<LoginResponse>?>(null)
-    val loginState: State<Result<LoginResponse>?> = _loginState
+
+    private val _loginState =
+        MutableStateFlow<Result<LoginResponse>>(Result.Init)
+
+    val loginState: StateFlow<Result<LoginResponse>> =
+        _loginState.asStateFlow()
 
     private var loginJob: Job? = null
 
@@ -39,6 +44,6 @@ class LoginViewModel(
     }
 
     fun clearState() {
-        _loginState.value = null
+        _loginState.value = Result.Loading
     }
 }

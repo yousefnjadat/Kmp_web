@@ -16,7 +16,8 @@ fun LoginScreen(
 ) {
     var userId by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val loginState by viewModel.loginState
+
+    val loginState by viewModel.loginState.collectAsState()
 
     Column(
         modifier = modifier
@@ -25,46 +26,35 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // Display login status
+
         when (loginState) {
+            is Result.Init -> {
+                Text("Log In")
+            }
+
             is Result.Loading -> {
                 CircularProgressIndicator()
                 Text("Logging in...")
             }
+
             is Result.Success -> {
                 val data = (loginState as Result.Success).data
-                Text(
-                    text = "Login Successful!\nStatus: ${data.status}",
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Text(
-                    text = data.userId,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-                Text(
-                    text = data.userName ?: "",
-                    color = MaterialTheme.colorScheme.secondary
-                )
-                Text(
-                    text = data.accessToken ?: "",
-                    color = MaterialTheme.colorScheme.secondary
-                )
+                Text("Login Successful", color = MaterialTheme.colorScheme.primary)
+                Text(data.userId)
+                Text(data.userName)
             }
+
             is Result.Error -> {
                 val error = (loginState as Result.Error).exception
                 Text(
-                    text = "Error: ${error.message}",
+                    text = error.message ?: "Unknown error",
                     color = MaterialTheme.colorScheme.error
                 )
-            }
-            else -> {
-                // Not logged in state
             }
         }
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Login Form
         OutlinedTextField(
             value = userId,
             onValueChange = { userId = it },
@@ -83,26 +73,12 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Login Button
         Button(
             onClick = { viewModel.login(userId, password) },
             modifier = Modifier.fillMaxWidth(),
             enabled = userId.isNotEmpty() && password.isNotEmpty()
         ) {
             Text("Login")
-        }
-
-        // Clear Button
-        Button(
-            onClick = { viewModel.clearState() },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer
-            )
-        ) {
-            Text("Clear State")
         }
     }
 }

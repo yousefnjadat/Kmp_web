@@ -15,7 +15,8 @@ class LoginRepositoryImpl(
         return when (val result = loginApi.login(mapper.toDto(request))) {
             is Result.Success -> Result.Success(mapper.toDomain(result.data))
             is Result.Error -> result
-            Result.Loading -> Result.Loading
+            is Result.Loading -> Result.Loading
+            Result.Init -> Result.Init
         }
     }
 }

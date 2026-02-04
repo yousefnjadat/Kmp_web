@@ -36,10 +36,10 @@ kotlin {
     }
 
     @OptIn(ExperimentalWasmDsl::class)
-//    wasmJs {
-//        browser()
-//        binaries.executable()
-//    }
+    wasmJs {
+        browser()
+        binaries.executable()
+    }
 
     sourceSets {
         androidMain.dependencies {
@@ -61,9 +61,10 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            // Koin Core (shared)
-            implementation("io.insert-koin:koin-core:3.5.0")
-            implementation("io.insert-koin:koin-compose:1.1.0")
+            // Koin Core with Wasm support
+            implementation("io.insert-koin:koin-core:4.1.1")
+            // Koin Compose for Multiplatform (supports Wasm)
+            implementation("io.insert-koin:koin-compose:4.1.1")
 
             // Coroutines
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")

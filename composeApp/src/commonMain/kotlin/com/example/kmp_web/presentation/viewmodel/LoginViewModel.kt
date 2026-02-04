@@ -44,6 +44,6 @@ class LoginViewModel(
     }
 
     fun clearState() {
-        _loginState.value = Result.Loading
+        _loginState.value = Result.Init
     }
 }

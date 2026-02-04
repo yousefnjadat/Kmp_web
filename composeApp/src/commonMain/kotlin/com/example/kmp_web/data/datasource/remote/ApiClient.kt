@@ -4,6 +4,7 @@ import io.ktor.client.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
+import io.ktor.client.request.header
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
@@ -35,6 +36,8 @@ class ApiClient {
 
             defaultRequest {
                 url(BASE_URL)
+                header(io.ktor.http.HttpHeaders.Accept, "application/json")
+                header(io.ktor.http.HttpHeaders.AcceptCharset, "utf-8")
             }
         }
     }

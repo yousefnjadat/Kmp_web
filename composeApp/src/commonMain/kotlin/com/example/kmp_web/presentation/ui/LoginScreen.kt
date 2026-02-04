@@ -80,5 +80,13 @@ fun LoginScreen(
         ) {
             Text("Login")
         }
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Button(
+            onClick = { viewModel.clearState() },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text("Clear State")
+        }
     }
 }

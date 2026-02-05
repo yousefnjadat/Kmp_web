@@ -6,4 +6,6 @@ import com.example.kmp_web.domain.model.LoginResponse
 
 interface LoginRepository {
     suspend fun login(request: LoginRequest): Result<LoginResponse>
+    suspend fun getSavedUser(): LoginResponse?
+     fun clearSession() // Added for Logout
 }

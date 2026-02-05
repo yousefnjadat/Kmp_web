@@ -85,6 +85,7 @@ fun LoginScreen(
         Button(
             onClick = { viewModel.clearState() },
             modifier = Modifier.fillMaxWidth(),
+            enabled = loginState != Result.Init
         ) {
             Text("Clear State")
         }

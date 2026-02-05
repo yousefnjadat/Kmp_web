@@ -7,29 +7,27 @@ import com.example.kmp_web.data.mapper.LoginMapper
 import com.example.kmp_web.data.repository.LoginRepositoryImpl
 import com.example.kmp_web.domain.repository.LoginRepository
 import com.example.kmp_web.domain.usecase.LoginUseCase
+import com.example.kmp_web.presentation.viewmodel.HomeViewModel
 import com.example.kmp_web.presentation.viewmodel.LoginViewModel
 import io.ktor.client.*
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import com.russhwolf.settings.Settings
 
 val appModule = module {
-    // HTTP Client
+    single { Settings() }
     single<HttpClient> { ApiClient.create() }
-
-    // API
-    single<LoginApi> { LoginApiImpl(get()) }
-
-    // Mapper
+    single<LoginApi> { LoginApiImpl(get(), get()) }
     single { LoginMapper() }
 
-    // Repository
-    single<LoginRepository> { LoginRepositoryImpl(get(), get()) }
+    // Pass the 3 arguments: Api, Mapper, Settings
+    single<LoginRepository> { LoginRepositoryImpl(get(), get(), get()) }
 
-    // Use Cases
     single { LoginUseCase(get()) }
 
     // ViewModels
-    single { LoginViewModel(get()) }
+    factory { LoginViewModel(get()) }
+    factory { HomeViewModel(get()) }
 }
 
 fun initKoin() {

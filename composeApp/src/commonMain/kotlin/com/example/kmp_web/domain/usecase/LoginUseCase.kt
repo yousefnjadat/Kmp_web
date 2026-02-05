@@ -6,7 +6,7 @@ import com.example.kmp_web.domain.model.LoginResponse
 import com.example.kmp_web.domain.repository.LoginRepository
 
 class LoginUseCase(private val repository: LoginRepository) {
-    suspend operator fun invoke(request: LoginRequest): Result<LoginResponse> {
-        return repository.login(request)
-    }
+    suspend operator fun invoke(request: LoginRequest) = repository.login(request)
+    suspend fun getSavedUser() = repository.getSavedUser()
+    fun logout() = repository.clearSession()
 }

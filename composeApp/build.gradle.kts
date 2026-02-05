@@ -75,6 +75,11 @@ kotlin {
             implementation("io.ktor:ktor-client-logging:$ktorVersion")
             implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
             implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+
+            //local storage
+            implementation("com.russhwolf:multiplatform-settings:1.2.0")
+            implementation("com.russhwolf:multiplatform-settings-no-arg:1.2.0")
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
